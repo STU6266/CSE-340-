@@ -34,14 +34,13 @@ body {
 }
 
 #wrapper {
-  width: 95%;
   background-color: var(--primary-background);
-  margin-left: auto;
-  margin-right: auto;
-  padding-bottom: auto;
+  margin: auto;
+  padding: clamp(12px, 2.2vw, 28px) clamp(16px, 3vw, 36px);
   border: 5px solid var(--main-accent);
-  border-radius: 10px;
-  width: 75vw;
+  border-radius: 12px;
+  width: 950px;
+  height: auto;
   max-width: 1200px;
 }
 
