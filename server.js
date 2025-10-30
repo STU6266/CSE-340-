@@ -1,35 +1,46 @@
 /* ******************************************
- * server.js
- ******************************************/
-const express = require("express");
-const expressLayouts = require("express-ejs-layouts");
-const path = require("path");
-require("dotenv").config();
+ * This server.js file is the primary file of the 
+ * application. It is used to control the project.
+ *******************************************/
+/* ***********************
+ * Require Statements
+ *************************/
 
-const app = express();
-const static = require("./routes/static");
 
-// View engine + Pfade
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));   // <— wichtig
-app.use(expressLayouts);
-app.set("layout", "./layouts/layout");
 
-// Static
-app.use(static);
+const express = require("express")
+const expressLayouts = require("express-ejs-layouts")
+const env = require("dotenv").config()
+const app = express()
+const static = require("./routes/static")
 
-// Healthcheck (optional, hilft bei Render)
-app.get("/healthz", (req, res) => res.status(200).send("OK"));
 
-// Index
-app.get("/", (req, res) => {
-  res.render("index", { title: "Home" });
-});
+/* ***********************
+ * View Engine and Templates
+ *************************/
+app.set("view engine", "ejs")
+app.use(expressLayouts)
+app.set("layout", "./layouts/layout") // not at views root
 
-// Host/Port (mit Fallback + 0.0.0.0 für Render)
-const PORT = process.env.PORT || 5500;
-const HOST = process.env.HOST || "0.0.0.0";
+/* ***********************
+ * Routes
+ *************************/
+app.use(static)
+//Index route
+app.get("/", function(req, res){
+  res.render("index", {title: "Home"})
+})
 
-app.listen(PORT, HOST, () => {
-  console.log(`app listening on ${HOST}:${PORT}`);
-});
+/* ***********************
+ * Local Server Information
+ * Values from .env (environment) file
+ *************************/
+const port = process.env.PORT
+const host = process.env.HOST
+
+/* ***********************
+ * Log statement to confirm server operation
+ *************************/
+app.listen(port, () => {
+  console.log(`app listening on ${host}:${port}`)
+})
