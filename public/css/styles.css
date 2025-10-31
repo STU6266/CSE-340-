@@ -23,7 +23,7 @@
   --main-accent: #01b0d3;
   --body-font: "Manrope", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
   --heading-font: "Poppins", system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-  --primary-text: #242333;
+  --primary-text: #21202f;
 }
 
 body {
@@ -74,7 +74,6 @@ header a {
   display: flex;
   justify-content: space-evenly;
 }
-/* end header.ejs */
 
 /* start navigation.ejs */
 nav {
@@ -95,32 +94,28 @@ nav li,
 nav li > a {
   display: inline-block;
   padding: 0.55rem 0.9rem;
-  background: #000;
+  background: #21202f;
   color: #fff;
   text-decoration: none;
   border-radius: 10px;
-  transition:
-    background-color .15s ease,
-    color .15s ease;
+  transition: background-color .15s ease, color .15s ease;
 }
 
 nav li:hover,
 nav li:focus-within {
   background: #fff;
-  color: #000;
+  color: #21202f;
 }
 
 nav li > a:hover,
 nav li > a:focus-visible {
   background: #fff;
-  color: #000;
+  color: #21202f;
   border-radius: 10px;
   outline: none;
 }
-/* end navigation.ejs */
 
 /* start index.ejs */
-
 img {
   max-width: 100%;
 }
@@ -240,7 +235,6 @@ section {
   margin-bottom: 2em;
   margin-top: 1em;
 }
-/* end index.ejs */
 
 /* start footer.ejs */
 footer {
@@ -257,4 +251,3 @@ hr {
   border: 2px solid var(--primary-text);
   margin: 0;
 }
-/* end footer.ejs */
