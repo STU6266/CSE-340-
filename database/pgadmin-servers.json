@@ -1,0 +1,24 @@
+{
+    "Servers": {
+        "1": {
+            "Name": "Render",
+            "Group": "Servers",
+            "Host": "dpg-d45qtu3ipnbc738rn2bg-a.frankfurt-postgres.render.com",
+            "Port": 5432,
+            "MaintenanceDB": "cse340database1_4xnd",
+            "Username": "cse340database1",
+            "DBRestrictionType": "databases",
+            "UseSSHTunnel": 0,
+            "TunnelPort": "22",
+            "TunnelAuthentication": 0,
+            "TunnelPromptPassword": 0,
+            "TunnelKeepAlive": 0,
+            "KerberosAuthentication": false,
+            "ConnectionParameters": {
+                "sslmode": "require",
+                "connect_timeout": 10
+            },
+            "Tags": []
+        }
+    }
+}
