@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title><%= title %></title>
+  <style>
+    body { font-family: system-ui, sans-serif; margin: 2rem; }
+    .card { border: 1px solid #ddd; border-radius: 12px; padding: 1.25rem; }
+    .muted { color: #666; font-size: 0.9rem; margin-top: .75rem; }
+  </style>
+</head>
+<body>
+  <h1><%= title %></h1>
+
+  <div class="card">
+    <!-- Unescaped output so HTML in message renders -->
+    <div id="message"><%- message %></div>
+    <p class="muted">If you found a bug, try a hard refresh or go back home.</p>
+  </div>
+</body>
+</html>
