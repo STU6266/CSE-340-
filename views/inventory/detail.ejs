@@ -1,0 +1,37 @@
+<main id="inv-detail" class="wrapper">
+  <h1><%= title %></h1>
+
+  <% if (message) { %>
+    <p class="notice"><%= message %></p>
+  <% } %>
+
+  <% if (detail && detail.length) { %>
+    <%- detail %>
+  <% } else if (item) { %>
+
+    <article class="vehicle-detail">
+      <figure class="vehicle-media">
+        <img
+          src="<%= item.inv_image %>"
+          alt="<%= item.inv_year %> <%= item.inv_make %> <%= item.inv_model %>"
+          loading="eager"
+          width="600"
+          height="400"
+        />
+      </figure>
+
+      <section class="vehicle-meta">
+        <ul class="specs">
+          <li><strong>Year:</strong> <%= item.inv_year %></li>
+          <li><strong>Make:</strong> <%= item.inv_make %></li>
+          <li><strong>Model:</strong> <%= item.inv_model %></li>
+          <li><strong>Color:</strong> <%= item.inv_color %></li>
+          <li><strong>Miles:</strong> <%= item.inv_miles?.toLocaleString?.() || item.inv_miles %></li>
+          <li><strong>Price:</strong> <%= Number(item.inv_price).toLocaleString("en-US", { style: "currency", currency: "USD" }) %>
+        </ul>
+        <p class="description"><%= item.inv_description %></p>
+      </section>
+    </article>
+    <% } %>
+
+</main>
