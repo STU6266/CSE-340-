@@ -305,6 +305,58 @@ hr { border: 2px solid var(--primary-text); margin: 0; }
 .specs dd { color: var(--text); font-weight: 500; margin: 0 0 .6rem; }
 .description { margin-top: .5rem; color: var(--text); }
 
+/* Login form card */
+.form-card{
+  max-width: 460px;
+  margin: 0 auto 1.25rem;
+  padding: 1rem 1.1rem;
+  background: var(--surface, #fff);
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: var(--radius, 12px);
+  box-shadow: var(--shadow, 0 6px 18px rgba(0,0,0,.06));
+}
+
+.form-card form{ display: grid; gap: .6rem; }
+.form-card label{ font-weight: 700; }
+.form-card input{
+  width: 100%;
+  padding: .6rem .7rem;
+  border: 1px solid var(--border, #e5e7eb);
+  border-radius: 10px;
+  font: inherit;
+}
+.form-card input:focus{
+  outline: 2px solid #c7eef2;
+  border-color: var(--accent, #0ea5b7);
+}
+
+.form-card .btn{
+  width: 100%;
+  padding: .4rem .7rem;
+  margin-top: .4rem;
+  border-radius: 10px;
+  background-color: var(--accent, #0ea5b7);
+}
+
+.muted{ color: var(--muted, #6b7280); }
+.small{ font-size: .95rem; }
+
+.form-hint{
+  margin: .25rem 0 .4rem;
+  font-size: .95rem;
+  color: var(--muted, #6b7280);
+}
+
+input:required:invalid,
+input:focus:invalid {
+  border-color: #ef4444;
+  outline: 2px solid #fecaca;
+}
+
+input:required:valid {
+  border-color: #22c55e;
+}
+
 /* Mobile (≤ 640px) */
 @media (max-width: 640px) {
 
@@ -381,6 +433,8 @@ nav li > a:focus-visible {
   .vehicle-meta { padding: .75rem; }
   .vehicle-meta .price { font-size: 1.6rem; margin: .25rem 0 .75rem; }
   .specs dd { margin-bottom: .4rem; }
+
+  .form-card{ padding: .9rem; }
 
   footer { text-align: center; }
 }
