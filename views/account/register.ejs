@@ -1,0 +1,76 @@
+<h1><%= title || "Register" %></h1>
+
+<% if (message) { %>
+  <p class="notice"><%= message %></p>
+<% } %>
+
+<% if (errors && typeof errors.array === 'function' && errors.array().length) { %>
+  <ul class="notice">
+    <% errors.array().forEach(e => { %>
+      <li><%= e.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<section class="form-card" aria-labelledby="register-heading">
+  <h2 id="register-heading" class="sr-only">Create your account</h2>
+
+  <form action="/account/register" method="post">
+    <label for="firstname">First name</label>
+    <input
+      id="firstname"
+      name="account_firstname"
+      type="text"
+      autocomplete="given-name"
+      required
+      value="<%= locals.account_firstname %>"
+    />
+
+    <label for="lastname">Last name</label>
+    <input
+      id="lastname"
+      name="account_lastname"
+      type="text"
+      autocomplete="family-name"
+      required
+      value="<%= locals.account_lastname %>"
+    />
+
+    <label for="reg-email">Email address</label>
+    <input
+      id="reg-email"
+      name="account_email"
+      type="email"
+      inputmode="email"
+      autocomplete="email"
+      required
+      placeholder="Enter a valid email address"
+      value="<%= locals.account_email %>"
+    />
+
+    <label for="reg-password">Password</label>
+    <div id="pw-rules" class="form-hint">
+      Passwords must be at least <strong>12</strong> characters and include
+      <strong>1 capital letter</strong>, <strong>1 lowercase letter</strong>,
+      <strong>1 number</strong>, and <strong>1 special character</strong>.
+      No spaces allowed.
+    </div>
+    <input
+      id="reg-password"
+      name="account_password"
+      type="password"
+      autocomplete="new-password"
+      minlength="12"
+      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+      aria-describedby="pw-rules"
+      required
+    />
+
+    <button class="btn" type="submit">Register</button>
+  </form>
+
+  <p class="muted small">
+    Already have an account?
+    <a href="/account/login">Login</a>
+  </p>
+</section>

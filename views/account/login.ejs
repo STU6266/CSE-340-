@@ -1,0 +1,58 @@
+<h1><%= title || "Login" %></h1>
+
+<% if (typeof message !== 'undefined' && message) { %>
+  <p class="notice"><%= message %></p>
+<% } %>
+
+<% if (errors && typeof errors.array === 'function' && errors.array().length) { %>
+  <ul class="notice">
+    <% errors.array().forEach(e => { %>
+      <li><%= e.msg %></li>
+    <% }) %>
+  </ul>
+<% } %>
+
+<section class="form-card" aria-labelledby="login-heading">
+  <h2 id="login-heading" class="sr-only">Sign in to your account</h2>
+
+  <!-- Keep native HTML5 validation (no 'novalidate') -->
+  <form action="/account/login" method="post">
+    <label for="login-email">Email</label>
+    <input
+      id="login-email"
+      name="account_email"
+      type="email"
+      inputmode="email"
+      autocomplete="email"
+      required
+      placeholder="Enter your email"
+      value="<%= locals.account_email %>"
+    />
+
+    <label for="login-password">Password</label>
+    <div id="pw-rules-login" class="form-hint">
+      Passwords must be at least <strong>12</strong> characters and include
+      <strong>1 capital letter</strong>, <strong>1 lowercase letter</strong>,
+      <strong>1 number</strong>, and <strong>1 special character</strong>.
+      No spaces allowed.
+    </div>
+    <input
+      id="login-password"
+      name="account_password"
+      type="password"
+      autocomplete="current-password"
+      minlength="12"
+      pattern="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).{12,}$"
+      aria-describedby="pw-rules-login"
+      required
+      placeholder="Enter your password"
+    />
+
+    <button class="btn" type="submit">Sign in</button>
+  </form>
+
+  <p class="muted small">
+    No account?
+    <a href="/account/register" rel="nofollow">Sign-up</a>
+  </p>
+</section>
