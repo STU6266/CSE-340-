@@ -1,9 +1,5 @@
 <h1><%= title || "Register" %></h1>
 
-<% if (message) { %>
-  <p class="notice"><%= message %></p>
-<% } %>
-
 <% if (errors && typeof errors.array === 'function' && errors.array().length) { %>
   <ul class="notice">
     <% errors.array().forEach(e => { %>
@@ -61,7 +57,7 @@
       type="password"
       autocomplete="new-password"
       minlength="12"
-      pattern="^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\s).{12,}$"
+      pattern="(?=^.{12,}$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W)(?!.*\s).*$"
       aria-describedby="pw-rules"
       required
     />

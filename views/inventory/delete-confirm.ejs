@@ -1,0 +1,67 @@
+<% /* Heading */ %>
+<h1><%= title %></h1>
+
+<p>Confirm Deletion - The delete is permanent.</p>
+
+<% /* Flash messages */ %>
+<%- messages() %>
+
+<% /* Server-side validation errors */ %>
+<% if (errors && errors.length) { %>
+  <div class="notice">
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<form action="/inv/delete" method="post">
+  <fieldset>
+    <legend>Vehicle Information</legend>
+
+    <label for="inv_make">Make</label>
+    <input
+      id="inv_make"
+      name="inv_make"
+      type="text"
+      readonly
+      value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>"
+    >
+
+    <label for="inv_model">Model</label>
+    <input
+      id="inv_model"
+      name="inv_model"
+      type="text"
+      readonly
+      value="<%= typeof inv_model !== 'undefined' ? inv_model : '' %>"
+    >
+
+    <label for="inv_year">Year</label>
+    <input
+      id="inv_year"
+      name="inv_year"
+      type="number"
+      readonly
+      value="<%= typeof inv_year !== 'undefined' ? inv_year : '' %>"
+    >
+
+    <label for="inv_price">Price</label>
+    <input
+      id="inv_price"
+      name="inv_price"
+      type="number"
+      readonly
+      value="<%= typeof inv_price !== 'undefined' ? inv_price : '' %>"
+    >
+  </fieldset>
+
+
+  <button type="submit">Delete Vehicle</button>
+  
+  <input type="hidden" name="inv_id"
+  <% if (locals.inv_id) { %> value="<%= locals.inv_id %>"
+  <% } %>>
+</form>

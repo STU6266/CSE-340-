@@ -15,8 +15,7 @@
 <section class="form-card" aria-labelledby="login-heading">
   <h2 id="login-heading" class="sr-only">Sign in to your account</h2>
 
-  <!-- Keep native HTML5 validation (no 'novalidate') -->
-  <form action="/account/login" method="post">
+  <form id="loginForm" action="/account/login" method="post">
     <label for="login-email">Email</label>
     <input
       id="login-email"
@@ -42,7 +41,7 @@
       type="password"
       autocomplete="current-password"
       minlength="12"
-      pattern="^(?=.*\\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[^a-zA-Z0-9])(?!.*\\s).{12,}$"
+      pattern="(?=^.{12,}$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W)(?!.*\s).*$"
       aria-describedby="pw-rules-login"
       required
       placeholder="Enter your password"
