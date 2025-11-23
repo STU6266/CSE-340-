@@ -1,0 +1,120 @@
+<% /* Heading */ %>
+<h1><%= title %></h1>
+
+<p>Use this form to modify an existing vehicle in the inventory.</p>
+
+<% /* Flash messages */ %>
+<%- messages() %>
+
+<% /* Server-side validation errors */ %>
+<% if (errors && errors.length) { %>
+  <div class="notice">
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<form action="/inv/update" method="post" id="updateForm">
+  <fieldset>
+    <legend>Vehicle Information</legend>
+
+    <label for="classificationList">Classification</label>
+    <%- classificationList %>
+
+    <label for="inv_make">Make</label>
+    <input
+      id="inv_make"
+      name="inv_make"
+      type="text"
+      required
+      value="<%= typeof inv_make !== 'undefined' ? inv_make : '' %>"
+    >
+
+    <label for="inv_model">Model</label>
+    <input
+      id="inv_model"
+      name="inv_model"
+      type="text"
+      required
+      value="<%= typeof inv_model !== 'undefined' ? inv_model : '' %>"
+    >
+
+    <label for="inv_year">Year</label>
+    <input
+      id="inv_year"
+      name="inv_year"
+      type="number"
+      required
+      min="1900"
+      max="2100"
+      value="<%= typeof inv_year !== 'undefined' ? inv_year : '' %>"
+    >
+
+    <label for="inv_description">Description</label>
+    <textarea
+      id="inv_description"
+      name="inv_description"
+      required
+    ><%= typeof inv_description !== 'undefined' ? inv_description : '' %></textarea>
+
+    <label for="inv_image">Image Path</label>
+    <input
+      id="inv_image"
+      name="inv_image"
+      type="text"
+      required
+      value="<%= typeof inv_image !== 'undefined' ? inv_image : '/images/vehicles/no-image.png' %>"
+    >
+
+    <label for="inv_thumbnail">Thumbnail Path</label>
+    <input
+      id="inv_thumbnail"
+      name="inv_thumbnail"
+      type="text"
+      required
+      value="<%= typeof inv_thumbnail !== 'undefined' ? inv_thumbnail : '/images/vehicles/no-image-tn.png' %>"
+    >
+
+    <label for="inv_price">Price</label>
+    <input
+      id="inv_price"
+      name="inv_price"
+      type="number"
+      required
+      min="0"
+      step="0.01"
+      value="<%= typeof inv_price !== 'undefined' ? inv_price : '' %>"
+    >
+
+    <label for="inv_miles">Miles</label>
+    <input
+      id="inv_miles"
+      name="inv_miles"
+      type="number"
+      required
+      min="0"
+      step="1"
+      value="<%= typeof inv_miles !== 'undefined' ? inv_miles : '' %>"
+    >
+
+    <label for="inv_color">Color</label>
+    <input
+      id="inv_color"
+      name="inv_color"
+      type="text"
+      required
+      value="<%= typeof inv_color !== 'undefined' ? inv_color : '' %>"
+    >
+  </fieldset>
+
+  <button type="submit" disabled>Update Vehicle</button>
+  
+  <input type="hidden" name="inv_id"
+  <% if (locals.inv_id) { %> value="<%= locals.inv_id %>"
+  <% } %>>
+</form>
+
+<script src="/js/inv-update.js"></script>
