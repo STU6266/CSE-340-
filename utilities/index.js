@@ -1,4 +1,7 @@
 const invModel = require("../models/inventory-model")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
+
 const Util = {}
 
 /* ************************
@@ -52,8 +55,6 @@ Util.buildClassificationList = async function (classification_id = null) {
  * General Error Handling
  **************************************** */
 Util.handleErrors = fn => (req, res, next) => Promise.resolve(fn(req, res, next)).catch(next)
-
-module.exports = Util
 
 /* **************************************
 * Build the classification view HTML
@@ -122,4 +123,54 @@ Util.buildVehicleDetail = function (item) {
 
 };
 
+/* ****************************************
+ * Check for JWT cookies and verify it
+ * **************************************** */
+Util.checkJWTToken = (req, res, next) => {
+  const token = req.cookies && req.cookies.jwt
 
+  if (!token) {
+    return next()
+  }
+
+  jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, (err, accountData) => {
+    if (err) {
+      req.flash("notice", "Please log in.")
+      res.clearCookie("jwt")
+      return res.redirect("/account/login")
+    }
+    res.locals.accountData = accountData
+    res.locals.loggedin = 1
+    next()
+  })
+}
+
+/* *******************************
+ * Require login for protected routes
+ * ******************************* */
+Util.checkLogin = (req, res, next) => {
+  if (res.locals.loggedin) {
+    return next()
+  }
+
+  req.flash("notice", "Please log in.")
+  return res.redirect("/account/login")
+}
+
+/* ****************************************
+ *  Check account type for inventory access
+ * *************************************** */
+Util.checkAccountType = (req, res, next) => {
+  if (
+    res.locals.accountData &&
+    (res.locals.accountData.account_type === "Employee" ||
+      res.locals.accountData.account_type === "Admin")
+  ) {
+    return next()
+  } else {
+    req.flash("notice", "You do not have permision to access this area.")
+    return res.redirect("/account/login")
+  }
+}
+
+module.exports = Util

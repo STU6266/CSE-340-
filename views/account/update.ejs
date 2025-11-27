@@ -1,0 +1,80 @@
+<h1><%= title %></h1>
+
+<%- messages() %>
+
+<% if (errors && errors.length > 0) { %>
+  <div class="error-list">
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<section class="account-update">
+  <h2>Account Update</h2>
+
+  <form action="/account/update" method="post" class="account-update-form">
+    <div class="form-item">
+      <label for="account_firstname">First Name</label>
+      <input
+        type="text"
+        id="account_firstname"
+        name="account_firstname"
+        required
+        value="<%= account_firstname %>"
+      >
+    </div>
+
+    <div class="form-item">
+      <label for="account_lastname">Last Name</label>
+      <input
+        type="text"
+        id="account_lastname"
+        name="account_lastname"
+        required
+        value="<%= account_lastname %>"
+      >
+    </div>
+
+    <div class="form-item">
+      <label for="account_email">Email</label>
+      <input
+        type="email"
+        id="account_email"
+        name="account_email"
+        required
+        value="<%= account_email %>"
+      >
+    </div>
+
+    <input type="hidden" name="account_id" value="<%= account_id %>">
+
+    <button type="submit">Update Account</button>
+  </form>
+</section>
+
+<section class="password-update">
+  <h2>Change Password</h2>
+  <p>
+    Enter a new pasword to change your current one. Remember: use a strong
+    password that meets the requirements (length, uppercase, lowercase, number,
+    special character, no spaces).
+  </p>
+
+  <form action="/account/update-password" method="post">
+    <label for="account_password">New Password</label>
+    <input
+      type="password"
+      id="account_password"
+      name="account_password"
+      required
+    />
+
+    <input type="hidden" name="account_id" value="<%= account_id %>" />
+
+    <button type="submit">Change Password</button>
+  </form>
+
+</section>
