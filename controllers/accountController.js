@@ -4,8 +4,12 @@ const accountModel = require("../models/account-model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
+const bcrypt = require("bcryptjs")
+const jwt = require("jsonwebtoken")
+require("dotenv").config()
 
 const accountController = {}
+
 
 /* ****************************************
 *  Deliver login view
@@ -28,6 +32,19 @@ accountController.buildRegister = async function (req, res, next) {
     title: "Register",
     nav,
     errors: null,
+  })
+}
+
+/* ****************************************
+ *  Deliver account management view
+ * ************************************ */
+accountController.buildAccountManagement = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  res.render("account/account", {
+    title: "Account Management",
+    nav,
+    errors: null,
+    
   })
 }
 

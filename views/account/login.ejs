@@ -16,6 +16,7 @@
   <h2 id="login-heading" class="sr-only">Sign in to your account</h2>
 
   <form action="/account/login" method="post">
+  <form id="loginForm" action="/account/login" method="post">
     <label for="login-email">Email</label>
     <input
       id="login-email"
@@ -40,6 +41,8 @@
       name="account_password"
       type="password"
       autocomplete="current-password"
+      minlength="12"
+      pattern="(?=^.{12,}$)(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*\W)(?!.*\s).*$"
       aria-describedby="pw-rules-login"
       required
       placeholder="Enter your password"

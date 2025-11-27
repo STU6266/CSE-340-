@@ -32,4 +32,16 @@ router.get("/delete/:inv_id",utilities.checkAccountType,utilities.handleErrors(i
 
 router.post("/delete",utilities.checkAccountType,utilities.handleErrors(invController.deleteInventoryItem))
 
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+
+router.get("/edit/:inv_id", utilities.handleErrors(invController.editInventoryView))
+
+router.post("/update", invValidate.inventoryRules(),
+  invValidate.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory))
+
+router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteConfirm))
+
+router.post("/delete", utilities.handleErrors(invController.deleteInventoryItem))
+
 module.exports = router;
