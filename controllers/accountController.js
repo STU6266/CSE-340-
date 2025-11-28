@@ -4,9 +4,6 @@ const accountModel = require("../models/account-model")
 const bcrypt = require("bcryptjs")
 const jwt = require("jsonwebtoken")
 require("dotenv").config()
-const bcrypt = require("bcryptjs")
-const jwt = require("jsonwebtoken")
-require("dotenv").config()
 
 const accountController = {}
 

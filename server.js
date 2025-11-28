@@ -19,7 +19,6 @@ const accountRoute = require("./routes/accountRoute")
 const bodyParser = require("body-parser")
 const cookieParser = require("cookie-parser")
 
-const cookieParser = require("cookie-parser")
 
 /* ***********************
  * Middleware
