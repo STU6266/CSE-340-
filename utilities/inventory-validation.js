@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator")
 const utilities = require(".")
+const invModel = require("../models/inventory-model")
 
 const invValidate = {}
 
@@ -171,6 +172,77 @@ invValidate.checkUpdateData = async (req, res, next) => {
     })
   }
   next()
+}
+
+/* ******************************
+ * Check inquiry form data and re-render form on error
+ ***************************** */
+invValidate.checkInquiryData = async (req, res, next) => {
+  const errors = validationResult(req)
+  const {
+    inv_id,
+    inquiry_name,
+    inquiry_email,
+    inquiry_phone,
+    inquiry_message,
+  } = req.body
+
+  let nav = await utilities.getNav()
+  const itemData = await invModel.getInventoryById(inv_id)
+
+  if (!itemData) {
+    req.flash("notice", "Sorry, that vehicle was not found.")
+    return res.redirect("/inv/")
+  }
+
+  if (!errors.isEmpty()) {
+    const title = `Request information about ${itemData.inv_year} ${itemData.inv_make} ${itemData.inv_model}`
+
+    return res.render("inventory/inquiry", {
+      title,
+      nav,
+      errors: errors.array(),
+      item: itemData,
+      inquiry_name,
+      inquiry_email,
+      inquiry_phone,
+      inquiry_message,
+    })
+  }
+
+  next()
+}
+
+/* ******************************
+ * Validation rules for Vehicle inquiry
+ ***************************** */
+invValidate.inquiryRules = () => {
+  return [
+    body("inv_id")
+      .trim()
+      .isInt({ min: 1 })
+      .withMessage("A valid vehicle id is required."),
+
+    body("inquiry_name")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide your name."),
+
+    body("inquiry_email")
+      .trim()
+      .isEmail()
+      .withMessage("A valid email address is required."),
+
+    body("inquiry_phone")
+      .optional({ checkFalsy: true })
+      .isLength({ max: 20 })
+      .withMessage("Phone number must be 20 characters or less."),
+
+    body("inquiry_message")
+      .trim()
+      .notEmpty()
+      .withMessage("Please enter a message."),
+  ]
 }
 
 

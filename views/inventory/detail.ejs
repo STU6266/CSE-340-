@@ -1,9 +1,14 @@
 <main id="inv-detail" class="wrapper">
   <h1><%= title %></h1>
 
-  <% if (message) { %>
-    <p class="notice"><%= message %></p>
-  <% } %>
+  <%- messages() %>
 
   <%- detail %>
+
+  <p class="inquiry-link">
+    <a href="/inv/inquiry/<%= inv_id %>">
+      Request more information about this vehicle
+    </a>
+  </p>
+
 </main>
