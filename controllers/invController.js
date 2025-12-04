@@ -28,7 +28,12 @@ async function buildByInventoryId(req, res, next) {
   const title = `${item.inv_make} ${item.inv_model}`
   const detail = utilities.buildVehicleDetail(item)
 
-  return res.render("inventory/detail", { title, nav, detail })
+  return res.render("inventory/detail", {
+    title,
+    nav,
+    detail,
+    inv_id: item.inv_id,
+  })
 }
 
 /* ***************************
@@ -45,6 +50,64 @@ invCont.buildManagementView = async function (req, res, next) {
     nav,
     classificationList,
   })
+}
+
+/* ***************************
+ *  Build inquiry form
+ * ************************** */
+invCont.buildInquiryForm = async function (req, res, next) {
+  const inv_id = parseInt(req.params.inv_id)
+
+  let nav = await utilities.getNav()
+
+  const itemData = await invModel.getInventoryById(inv_id)
+
+  if (!itemData) {
+    req.flash("notice", "Sorry, that vehicle was not found.")
+    return res.redirect("/inv/")
+  }
+
+  const title = `Request information about ${itemData.inv_year} ${itemData.inv_make} ${itemData.inv_model}`
+
+  return res.render("inventory/inquiry", {
+    title,
+    nav,
+    errors: null,
+    item: itemData,
+    inquiry_name: "",
+    inquiry_email: "",
+    inquiry_phone: "",
+    inquiry_message: "",
+  })
+}
+
+/* ***************************
+ *  Process vehicle inquiry
+ * ************************** */
+invCont.sendInquiry = async function (req, res, next) {
+  const {
+    inv_id,
+    inquiry_name,
+    inquiry_email,
+    inquiry_phone,
+    inquiry_message,
+  } = req.body
+
+  const result = await invModel.createInquiry(
+    inv_id,
+    inquiry_name,
+    inquiry_email,
+    inquiry_phone,
+    inquiry_message
+  )
+
+  if (result && result.inquiry_id) {
+    req.flash("notice", "Your inquiry has been sent. We will contact you soon.")
+    return res.redirect(`/inv/detail/${inv_id}`)
+  } else {
+    req.flash("notice", "Sorry, your inquiry could not be sent.")
+    return res.redirect(`/inv/inquiry/${inv_id}`)
+  }
 }
 
 /* ***************************
@@ -295,4 +358,6 @@ invCont.deleteInventoryItem = async function (req, res, next) {
 }
 
 invCont.buildByInventoryId = buildByInventoryId
+
+
 module.exports = invCont

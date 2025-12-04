@@ -44,4 +44,9 @@ router.get("/delete/:inv_id", utilities.handleErrors(invController.buildDeleteCo
 
 router.post("/delete", utilities.handleErrors(invController.deleteInventoryItem))
 
+router.post("/inquiry",invValidate.inquiryRules(),
+  invValidate.checkInquiryData,utilities.handleErrors(invController.sendInquiry))
+
+router.get("/inquiry/:inv_id",utilities.handleErrors(invController.buildInquiryForm))
+
 module.exports = router;

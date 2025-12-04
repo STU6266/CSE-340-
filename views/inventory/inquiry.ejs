@@ -1,0 +1,73 @@
+<% /* Heading */ %>
+<h1><%= title %></h1>
+
+<p>Use this form to reqest more information about this vehicle.</p>
+
+<% /* Flash messages */ %>
+<%- messages() %>
+
+<% /* Server-side validation errors */ %>
+<% if (errors && errors.length) { %>
+  <div class="notice">
+    <ul>
+      <% errors.forEach(error => { %>
+        <li><%= error.msg %></li>
+      <% }) %>
+    </ul>
+  </div>
+<% } %>
+
+<section class="vehicle-summary">
+  <h2>
+    <%= item.inv_year %> <%= item.inv_make %> <%= item.inv_model %>
+  </h2>
+  <p><%= item.inv_description %></p>
+</section>
+
+<form class="inquiry-form" action="/inv/inquiry" method="post">
+  <input type="hidden" name="inv_id" value="<%= item.inv_id %>">
+
+  <div class="field">
+    <label for="inquiry_name">Your name</label>
+    <input
+      type="text"
+      id="inquiry_name"
+      name="inquiry_name"
+      required
+      value="<%= inquiry_name %>"
+    >
+  </div>
+
+  <div class="field">
+    <label for="inquiry_email">Email</label>
+    <input
+      type="email"
+      id="inquiry_email"
+      name="inquiry_email"
+      required
+      value="<%= inquiry_email %>"
+    >
+  </div>
+
+  <div class="field">
+    <label for="inquiry_phone">Phone</label>
+    <input
+      type="tel"
+      id="inquiry_phone"
+      name="inquiry_phone"
+      value="<%= inquiry_phone %>"
+    >
+  </div>
+
+  <div class="field">
+    <label for="inquiry_message">Message</label>
+    <textarea
+      id="inquiry_message"
+      name="inquiry_message"
+      rows="5"
+      required
+    ><%= inquiry_message %></textarea>
+  </div>
+
+  <button type="submit">Send inquiry</button>
+</form>

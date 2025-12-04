@@ -1,5 +1,6 @@
 const { body, validationResult } = require("express-validator")
 const utilities = require(".")
+const invModel = require("../models/inventory-model")
 
 const invValidate = {}
 
@@ -13,7 +14,7 @@ invValidate.classificationRules = () => {
       .notEmpty()
       .withMessage("Please provide a classification name.")
       .matches(/^[A-Za-z0-9]+$/)
-      .withMessage("The classification name may not contain spaces or special charackters.")
+      .withMessage("The classification name may not contain spaces or special charackters."),
   ]
 }
 
@@ -129,54 +130,119 @@ invValidate.checkInventoryData = async (req, res, next) => {
   next()
 }
 
-/* ***************************
- *  Check inventory update data
- * ************************** */
+/* ******************************
+ * Check data and return to edit inventory view
+ ***************************** */
 invValidate.checkUpdateData = async (req, res, next) => {
-  const errors = validationResult(req)
-
   const {
     inv_id,
+    classification_id,
     inv_make,
     inv_model,
-    inv_year,
     inv_description,
     inv_image,
     inv_thumbnail,
     inv_price,
+    inv_year,
     inv_miles,
     inv_color,
-    classification_id,
   } = req.body
 
+  let errors = validationResult(req)
   if (!errors.isEmpty()) {
     let nav = await utilities.getNav()
-    const classificationList = await utilities.buildClassificationList(
-      classification_id
-    )
-
+    const classificationList = await utilities.buildClassificationList(classification_id)
     const itemName = `${inv_make} ${inv_model}`
-
-    return res.render("inventory/edit-inventory", {
+    return res.status(400).render("inventory/edit-inventory", {
       title: "Edit " + itemName,
       nav,
       classificationList,
       errors: errors.array(),
       inv_id,
+      classification_id,
       inv_make,
       inv_model,
-      inv_year,
       inv_description,
       inv_image,
       inv_thumbnail,
       inv_price,
+      inv_year,
       inv_miles,
       inv_color,
-      classification_id,
+    })
+  }
+  next()
+}
+
+/* ******************************
+ * Check inquiry form data and re-render form on error
+ ***************************** */
+invValidate.checkInquiryData = async (req, res, next) => {
+  const errors = validationResult(req)
+  const {
+    inv_id,
+    inquiry_name,
+    inquiry_email,
+    inquiry_phone,
+    inquiry_message,
+  } = req.body
+
+  let nav = await utilities.getNav()
+  const itemData = await invModel.getInventoryById(inv_id)
+
+  if (!itemData) {
+    req.flash("notice", "Sorry, that vehicle was not found.")
+    return res.redirect("/inv/")
+  }
+
+  if (!errors.isEmpty()) {
+    const title = `Request information about ${itemData.inv_year} ${itemData.inv_make} ${itemData.inv_model}`
+
+    return res.render("inventory/inquiry", {
+      title,
+      nav,
+      errors: errors.array(),
+      item: itemData,
+      inquiry_name,
+      inquiry_email,
+      inquiry_phone,
+      inquiry_message,
     })
   }
 
   next()
+}
+
+/* ******************************
+ * Validation rules for Vehicle inquiry
+ ***************************** */
+invValidate.inquiryRules = () => {
+  return [
+    body("inv_id")
+      .trim()
+      .isInt({ min: 1 })
+      .withMessage("A valid vehicle id is required."),
+
+    body("inquiry_name")
+      .trim()
+      .notEmpty()
+      .withMessage("Please provide your name."),
+
+    body("inquiry_email")
+      .trim()
+      .isEmail()
+      .withMessage("A valid email address is required."),
+
+    body("inquiry_phone")
+      .optional({ checkFalsy: true })
+      .isLength({ max: 20 })
+      .withMessage("Phone number must be 20 characters or less."),
+
+    body("inquiry_message")
+      .trim()
+      .notEmpty()
+      .withMessage("Please enter a message."),
+  ]
 }
 
 module.exports = invValidate

@@ -131,4 +131,30 @@ async function deleteInventoryItem(inv_id) {
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getInventoryById, addClassification, addInventory, updateInventory, deleteInventoryItem,};
+/* ***************************
+ *  Insert new inquiry
+ * ************************** */
+async function createInquiry(inv_id, inquiry_name, inquiry_email, inquiry_phone, inquiry_message) {
+  const sql = `
+    INSERT INTO public.inv_inquiry
+      (inv_id, inquiry_name, inquiry_email, inquiry_phone, inquiry_message)
+    VALUES
+      ($1, $2, $3, $4, $5)
+    RETURNING inquiry_id
+  `
+  try {
+    const data = await pool.query(sql, [
+      inv_id,
+      inquiry_name,
+      inquiry_email,
+      inquiry_phone,
+      inquiry_message,
+    ])
+    return data.rows[0]
+  } catch (error) {
+    console.error("createInquiry error " + error)
+    throw error
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getInventoryById, addClassification, addInventory, updateInventory, deleteInventoryItem, createInquiry,};
